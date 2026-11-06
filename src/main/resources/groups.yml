@@ -1,0 +1,24 @@
+# FailMultiWorld groups. Created and changed with /mwn commands (create, set, world ...).
+# The "id" of a group is permanent; never edit it. Run /mwn reload after manual edits.
+#
+# Example of a full entry:
+# groups:
+#   survival:
+#     id: server_001
+#     display-name: "<gradient:#B59BFF:#8A5CFF>Survival</gradient>"
+#     description: "Classic survival"
+#     icon: GRASS_BLOCK
+#     worlds: [Survival, Survival_Nether, Survival_End]
+#     settings:
+#       isolated-chat: true
+#       separate-inventory: true
+#       separate-enderchest: true
+#       separate-xp: true
+#     limits:
+#       max-players: 100
+#     spawn: {world: Survival, x: 0.5, y: 100, z: 0.5, yaw: 0, pitch: 0}
+#     features: {scoreboard: true, tablist: true}
+#     plugin-isolation: {Shop: true, Jobs: false}
+#     rules: {pvp: true, hunger: true, build: true}
+counter: 0
+groups: {}

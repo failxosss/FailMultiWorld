@@ -1,0 +1,71 @@
+name: FailMultiWorld
+main: cz.failxos.mwn.MWNPlugin
+version: 1.0.0
+api-version: '1.21'
+author: Failxos
+description: Virtual server network (groups of worlds) inside one Paper server.
+softdepend: [PlaceholderAPI, LuckPerms, Vault]
+
+commands:
+  mwn:
+    description: FailMultiWorld main command
+    usage: /mwn help
+    aliases: [multiworld, failmultiworld]
+  server:
+    description: Open the server selector or switch virtual server
+    usage: /server [group]
+  servers:
+    description: List virtual servers
+    usage: /servers
+
+permissions:
+  mwn.admin:
+    description: All administration commands
+    default: op
+    children:
+      mwn.create: true
+      mwn.delete: true
+      mwn.backup: true
+      mwn.bypass.limit: true
+      mwn.bypass.maintenance: true
+      mwn.bypass.cooldown: true
+      mwn.bypass.build: true
+      mwn.bypass.chat: true
+      mwn.chat.staff: true
+  mwn.create:
+    default: op
+  mwn.delete:
+    default: op
+  mwn.backup:
+    default: op
+  mwn.use:
+    description: Basic player commands
+    default: true
+  mwn.server:
+    description: Use /server and /servers
+    default: true
+  mwn.chat.global:
+    default: true
+  mwn.chat.msg:
+    default: true
+  mwn.chat.staff:
+    default: op
+  mwn.bypass.limit:
+    default: op
+  mwn.bypass.maintenance:
+    default: op
+  mwn.bypass.cooldown:
+    default: op
+  mwn.bypass.build:
+    default: op
+  mwn.bypass.chat:
+    default: op
+  mwn.group.*:
+    description: Access to every group (only checked when require-group-permission is true)
+    default: true
+  mwn.portal.*:
+    description: Use every portal
+    default: true
+  mwn.queue.priority:
+    description: Skip ahead in server queues
+    default: op

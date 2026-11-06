@@ -1,0 +1,156 @@
+# ============================================================
+#  FailMultiWorld - main configuration
+#  Text supports legacy (&a), hex (&#B59BFF) and MiniMessage
+#  (<gradient:#B59BFF:#8A5CFF>text</gradient>, <rainbow>, <click>, <hover>...)
+# ============================================================
+
+server-name: "MyNetwork"          # %mwn_server_name%
+debug: false
+
+# Group new players are sent to (empty = none). Set in-game with /mwn setlobby <group>
+lobby-group: ""
+
+# true = a player needs mwn.group.<name> (or mwn.group.*) to enter a group
+require-group-permission: false
+
+# Autosave of player data (minutes)
+autosave-minutes: 5
+
+# ---------------- Database ----------------
+# type: sqlite | mysql | mariadb   (drivers are bundled with Paper)
+database:
+  type: sqlite
+  file: data.db
+  host: localhost
+  port: 3306
+  name: mwn
+  user: root
+  password: ""
+  ssl: false
+
+# ---------------- Switching ----------------
+transfer:
+  cooldown-seconds: 3
+  sound: "entity.enderman.teleport"   # empty = none
+  notify-groups: true                 # tell players of the old/new group
+  restore-last-location: false        # true = return to the last position in that group instead of its spawn
+
+# ---------------- Automatic world grouping ----------------
+grouping:
+  min-confidence: 0.5          # suggestions below this are not shown
+  auto-assign: false           # assign worlds automatically on startup (only >= threshold)
+  auto-assign-threshold: 0.9
+  # Extra names that belong to a group (group key -> world names or base names)
+  aliases:
+    chunkbase:
+      - chunk
+
+# ---------------- Chat ----------------
+# Tags: <player> <message> <group> (display name) <group_name> (key)
+chat:
+  cooldown-seconds: 0
+  private-across-groups: true
+  no-group-name: "-"
+  blocked-words: []            # messages containing these are blocked (bypass: mwn.bypass.chat)
+  format:
+    group: "&8[<group>&8] &7<player>&8: &f<message>"
+    global: "&8[&6Global&8] [<group>&8] &7<player>&8: &f<message>"
+    staff: "&8[&cStaff&8] &7<player>&8: &c<message>"
+
+# ---------------- Plugin isolation ----------------
+# A feature can be switched per group with /mwn feature <group> <Feature> <true|false>.
+# MWN really enforces it in two ways:
+#   1) commands listed here are blocked in groups where the feature is off
+#   2) other plugins ask MwnApi#isFeatureEnabled(player, "Feature") (see README)
+# Third-party plugins are never unloaded or patched.
+isolation:
+  features:
+    Shop:
+      commands: [shop, buy, sell]
+    Jobs:
+      commands: [jobs]
+    PlaytimeRewards:
+      commands: [playtimerewards, ptr]
+    Economy:
+      commands: []
+
+# ---------------- Scoreboard (per group override in groups.yml) ----------------
+scoreboard:
+  enabled: true
+  refresh-ticks: 20
+  title: "<gradient:#B59BFF:#8A5CFF><bold>%mwn_server_name%</bold></gradient>"
+  lines:
+    - "&8&m                "
+    - "&7Server: &f%mwn_group_name%"
+    - "&7Players: &f%mwn_group_players%&7/&f%mwn_group_max_players%"
+    - "&7Online total: &f%mwn_total_players%"
+    - ""
+    - "&7World: &f%mwn_player_world%"
+
+# ---------------- Tab list ----------------
+tablist:
+  enabled: true
+  hide-other-groups: true      # players of other groups are hidden from this player's tab
+  name-format: "&8[&f%mwn_group_name%&8] &f%player%"   # empty = leave the name untouched
+  header:
+    - "<gradient:#B59BFF:#8A5CFF><bold>%mwn_server_name%</bold></gradient>"
+    - "&7You are on &f%mwn_group_name%"
+  footer:
+    - "&7%mwn_group_players% players here, %mwn_total_players% online"
+
+# ---------------- Server selector GUI ----------------
+gui:
+  title: "<gradient:#B59BFF:#8A5CFF>Select a server</gradient>"
+  rows: 3
+  hide-without-permission: true   # only used together with require-group-permission
+  lore:
+    - "&7%description%"
+    - ""
+    - "&7Players: &f%players%&7/&f%max%"
+    - "&7Status: %status%"
+    - ""
+    - "&eClick to join"
+
+# ---------------- Backups ----------------
+backup:
+  keep: 5     # number of backups kept per group
+
+# ---------------- Friends ----------------
+friends:
+  enabled: true
+  max: 50
+  notifications: true
+  show-server: true       # false hides which server a friend is on (also in /mwn profile)
+
+# ---------------- Animations ----------------
+# Use %mwn_anim_<name>% in scoreboard, tab, GUI, messages ... (refresh follows the scoreboard/tab refresh)
+animations:
+  title:
+    interval-ticks: 10
+    frames:
+      - "<gradient:#B59BFF:#8A5CFF>FailMultiWorld</gradient>"
+      - "<gradient:#8A5CFF:#B59BFF>FailMultiWorld</gradient>"
+      - "<gradient:#B59BFF:#FFFFFF>FailMultiWorld</gradient>"
+  rainbow:
+    interval-ticks: 5
+    frames:
+      - "<rainbow:0>Network</rainbow>"
+      - "<rainbow:0.25>Network</rainbow>"
+      - "<rainbow:0.5>Network</rainbow>"
+      - "<rainbow:0.75>Network</rainbow>"
+
+# ---------------- Queue ----------------
+queue:
+  enabled: true
+  notify-seconds: 30       # position reminder interval
+
+# ---------------- Economy ----------------
+# provider: true makes MWN the Vault economy provider with balances per virtual server
+# (groups with settings.separate-economy: true get their own balance, others share one).
+# WARNING: only enable if MWN should REPLACE your current economy plugin; existing balances are not imported.
+economy:
+  provider: false
+  starting-balance: 0.0
+  currency-singular: "coin"
+  currency-plural: "coins"
+  fractional-digits: 2
